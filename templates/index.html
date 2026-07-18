@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>YouTube RAG Chatbot</title>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>YouTube Chatbot</h1>
+
+<div class="top">
+
+<input id="videoId" placeholder="Enter Video ID">
+
+<button onclick="loadVideo()">
+
+Load Video
+
+</button>
+
+</div>
+
+<div id="chatBox"></div>
+
+<div class="bottom">
+
+<input id="message" placeholder="Ask anything">
+
+<button onclick="sendMessage()">
+
+Send
+
+</button>
+
+</div>
+
+</div>
+
+<script src="{{ url_for('static',filename='script.js') }}"></script>
+
+</body>
+
+</html>
