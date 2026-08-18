@@ -24,6 +24,7 @@ load_dotenv()
 
 vector_store = None
 retriever = None
+MAX_HISTORY_MESSAGES = 10
 
 chat_history = [
     SystemMessage(content="You are a helpful AI assistant.")
@@ -137,16 +138,14 @@ def ask_question(question):
     if retriever is None:
         return "Please load a YouTube video first."
 
-    chat_history.append(
-        HumanMessage(content=question)
-    )
+    
 
     parallel_chain = RunnableParallel(
         {
             "context": retriever | RunnableLambda(format_docs),
             "question": RunnablePassthrough(),
             "history": RunnableLambda(
-                lambda _: format_history(chat_history)
+                lambda _: format_history(chat_history[-MAX_HISTORY_MESSAGES:])
             ),
         }
     )
@@ -159,6 +158,10 @@ def ask_question(question):
     )
 
     answer = final_chain.invoke(question)
+
+    chat_history.append(
+            HumanMessage(content=question)
+        )
 
     chat_history.append(
         AIMessage(content=answer)
